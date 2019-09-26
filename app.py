@@ -37,18 +37,18 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+    notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
                         title="株式会社デーコム",
                         text="でーこむホームページ",
                         actions=[{"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/"}]),
 
-         CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+         CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
                         title="デーコム ブログ",
                         text="部活や社員旅行、社内イベントのご紹介ヽ(=´▽`=)ﾉ",
                         actions=[
                             {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/blog/"}]),
 
-         CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2017/05/img_portfolio_dcomlab_1-653x450.png",
+         CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2017/05/img_portfolio_dcomlab_1-653x450.png",
                         title="デーコム Lab",
                         text="IT技術ブログφ(..)",
                         actions=[
