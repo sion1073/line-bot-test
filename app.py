@@ -37,22 +37,28 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle02.jpg",
-                            title="【ReleaseNote】トークルームを実装しました。",
-                            text="creation(創作中・考え中の何かしらのモノ・コト)に関して、意見を聞けるようにトークルーム機能を追加しました。",
-                            actions=[{"type": "message","label": "サイトURL","text": "https://renttle.jp/notes/kota/7"}]),
+    notes = [CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+                        title="株式会社デーコム",
+                        text="でーこむホームページ",
+                        actions=[{"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/"}]),
 
-             CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle03.jpg",
-                            title="ReleaseNote】創作中の活動を報告する機能を追加しました。",
-                            text="創作中や考え中の時点の活動を共有できる機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/6"}]),
+         CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+                        title="デーコム ブログ",
+                        text="部活や社員旅行、社内イベントのご紹介ヽ(=´▽`=)ﾉ",
+                        actions=[
+                            {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/blog/"}]),
 
-             CarouselColumn(thumbnail_image_url="https://renttle.jp/static/img/renttle04.jpg",
-                            title="【ReleaseNote】タグ機能を追加しました。",
-                            text="「イベントを作成」「記事を投稿」「本を登録」にタグ機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/5"}])]
+         CarouselColumn(thumbnail_image_url="http://www.dcom-web.co.jp/wp-content/uploads/2017/05/img_portfolio_dcomlab_1-653x450.png",
+                        title="デーコム Lab",
+                        text="IT技術ブログφ(..)",
+                        actions=[
+                            {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/portfolio/dcom-lab/"}]),
+
+         CarouselColumn(thumbnail_image_url="https://job.rikunabi.com/2020/static/common/contents/logos/rikunabi/image/popup_headerlogo.gif",
+                       title="デーコム リクナビ2020",
+                       text="エントリーはこちらからっ(｀･ω･´)ゞ",
+                       actions=[
+                           {"type": "message", "label": "サイトURL", "text": "https://job.rikunabi.com/2020/company/r847700062/"}])]
 
     messages = TemplateSendMessage(
         alt_text='template',
