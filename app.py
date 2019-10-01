@@ -38,7 +38,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
-    with open('ids.yaml', "w") as file:
+    with open('ids.yaml', "r") as file:
         data = yaml.load(file)
 
         update = False
@@ -54,7 +54,8 @@ def response_message(event):
                 update = True
 
         if update:
-            yaml.dump(data, file)
+            with open('ids.yaml', "w") as yaml:
+            yaml.dump(data, yaml)
 
     if event.message.text == "でーこむ" or event.message.text == "デーコム":
         notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
