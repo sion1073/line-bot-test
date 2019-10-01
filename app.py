@@ -38,7 +38,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
-    with open('ids.yaml') as file:
+    with open('ids.yaml', "w") as file:
         data = yaml.load(file)
 
         update = False
