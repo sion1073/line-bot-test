@@ -43,12 +43,12 @@ def response_message(event):
 
         update = False
         if event.source.type == "user":
-            id = event.source.type.userId
+            id = event.source.userId
             if id not in data["ids"]["user"]:
                 data["ids"]["user"].add(id)
                 update = True
         elif event.source.type == "group":
-            id = event.source.type.groupId
+            id = event.source.groupId
             if id not in data["ids"]["group"]:
                 data["ids"]["group"].add(id)
                 update = True
