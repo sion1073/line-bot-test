@@ -1,4 +1,5 @@
 import os
+import yaml
 
 from flask import Flask, request, abort
 from linebot import (
@@ -37,6 +38,24 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
+    with open('ids.yaml') as file:
+        data = yaml.load(file)
+
+        update = False
+        if event.source.type == "user":
+            id = event.source.type.userId
+            if id not in data["ids"]["user"]:
+                data["ids"]["user"].add(id)
+                update = True
+        elif event.source.type == "group":
+            id = event.source.type.groupId
+            if id not in data["ids"]["group"]:
+                data["ids"]["group"].add(id)
+                update = True
+
+        if update:
+            yaml.dump(data, wf)
+
     if event.message.text == "でーこむ" or event.message.text == "デーコム":
         notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
                             title="株式会社デーコム",
@@ -65,6 +84,10 @@ def response_message(event):
             alt_text='template',
             template=CarouselTemplate(columns=notes),
         )
+    elif event.message.text == "id":
+        with open('ids.yaml') as file:
+            data = yaml.load(file)
+            messages = TextSendMessage(text=data)
     else:
         messages = TextSendMessage(text='すみません、よくわかりません')
 
