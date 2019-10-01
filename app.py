@@ -54,8 +54,8 @@ def response_message(event):
                 update = True
 
         if update:
-            with open('ids.yaml', "w") as yaml:
-                yaml.dump(data, yaml)
+            with open('ids.yaml', "w") as yaml_file:
+                yaml.dump(data, yaml_file)
 
     if event.message.text == "でーこむ" or event.message.text == "デーコム":
         notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
