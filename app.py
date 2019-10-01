@@ -36,34 +36,37 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
-    # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
-                        title="株式会社デーコム",
-                        text="でーこむホームページ",
-                        actions=[{"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/"}]),
 
-         CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
-                        title="デーコム ブログ",
-                        text="部活や社員旅行、社内イベントのご紹介ヽ(=´▽`=)ﾉ",
-                        actions=[
-                            {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/blog/"}]),
+    if event.message.text == "でーこむ" or event.message.text == "デーコム":
+        notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+                            title="株式会社デーコム",
+                            text="でーこむホームページ",
+                            actions=[{"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/"}]),
 
-         CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2017/05/img_portfolio_dcomlab_1-653x450.png",
-                        title="デーコム Lab",
-                        text="IT技術ブログφ(..)",
-                        actions=[
-                            {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/portfolio/dcom-lab/"}]),
+             CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
+                            title="デーコム ブログ",
+                            text="部活や社員旅行、社内イベントのご紹介ヽ(=´▽`=)ﾉ",
+                            actions=[
+                                {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/blog/"}]),
 
-         CarouselColumn(thumbnail_image_url="https://job.rikunabi.com/2020/static/common/contents/logos/rikunabi/image/popup_headerlogo.gif",
-                       title="デーコム リクナビ2020",
-                       text="エントリーはこちらからっ(｀･ω･´)ゞ",
-                       actions=[
-                           {"type": "message", "label": "サイトURL", "text": "https://job.rikunabi.com/2020/company/r847700062/"}])]
+             CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2017/05/img_portfolio_dcomlab_1-653x450.png",
+                            title="デーコム Lab",
+                            text="IT技術ブログφ(..)",
+                            actions=[
+                                {"type": "message", "label": "サイトURL", "text": "http://www.dcom-web.co.jp/portfolio/dcom-lab/"}]),
 
-    messages = TemplateSendMessage(
-        alt_text='template',
-        template=CarouselTemplate(columns=notes),
-    )
+             CarouselColumn(thumbnail_image_url="https://job.rikunabi.com/2020/static/common/contents/logos/rikunabi/image/popup_headerlogo.gif",
+                           title="デーコム リクナビ2020",
+                           text="エントリーはこちらからっ(｀･ω･´)ゞ",
+                           actions=[
+                               {"type": "message", "label": "サイトURL", "text": "https://job.rikunabi.com/2020/company/r847700062/"}])]
+
+        messages = TemplateSendMessage(
+            alt_text='template',
+            template=CarouselTemplate(columns=notes),
+        )
+    else:
+        messages = TextSendMessage(text='すみません、よくわかりません')
 
     line_bot_api.reply_message(event.reply_token, messages=messages)
 
