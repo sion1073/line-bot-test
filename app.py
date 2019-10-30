@@ -20,7 +20,7 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
-@app.route("/ids", methods=['POST'])
+@app.route("/ids", methods=['GET'])
 def get_ids():
     with open('ids.yaml') as file:
         data = yaml.load(file)
