@@ -22,11 +22,13 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 @app.route("/ids", methods=['GET'])
 def get_ids():
-    with open('ids.yaml') as file:
-        data = yaml.load(file)
-        print(data)
 
-        return jsonify(data)
+    if os.path.exists('ids.yaml'):
+        with open('ids.yaml') as file:
+            data = yaml.load(file)
+            return jsonify(data)
+
+    return jsonify({})
 
 
 @app.route("/callback", methods=['POST'])
@@ -105,11 +107,6 @@ def response_message(event):
             alt_text='template',
             template=CarouselTemplate(columns=notes),
         )
-    elif event.message.text == "id":
-        with open('ids.yaml') as file:
-            data = yaml.load(file)
-            print(data)
-            messages = TextSendMessage(text=data)
     else:
         messages = TextSendMessage(text='すみません、よくわかりません')
 
