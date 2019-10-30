@@ -44,24 +44,35 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
-    with open('ids.yaml', "r") as file:
-        data = yaml.load(file)
+    if os.path.exists('ids.yaml'):
 
-        update = False
+        with open('ids.yaml', "r") as file:
+            data = yaml.load(file)
+
+            update = False
+            if event.source.type == "user":
+                id = event.source.user_id
+                if id not in data["ids"]["user"]:
+                    data["ids"]["user"].append(id)
+                    update = True
+            elif event.source.type == "group":
+                id = event.source.group_id
+                if id not in data["ids"]["group"]:
+                    data["ids"]["group"].append(id)
+                    update = True
+    else:
+        update = True
+        data = {'ids': {'user': ['dummy'], 'group': ['dummy']}}
         if event.source.type == "user":
             id = event.source.user_id
-            if id not in data["ids"]["user"]:
-                data["ids"]["user"].append(id)
-                update = True
+            data["ids"]["user"].append(id)
         elif event.source.type == "group":
             id = event.source.group_id
-            if id not in data["ids"]["group"]:
-                data["ids"]["group"].append(id)
-                update = True
+            data["ids"]["group"].append(id)
 
-        if update:
-            with open('ids.yaml', "w") as yaml_file:
-                yaml.dump(data, yaml_file)
+    if update:
+        with open('ids.yaml', "w") as yaml_file:
+            yaml.dump(data, yaml_file)
 
     if event.message.text == "でーこむ" or event.message.text == "デーコム":
         notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
