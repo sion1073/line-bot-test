@@ -20,6 +20,12 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
+@app.route("/ids", methods=['POST'])
+def get_ids():
+    with open('ids.yaml') as file:
+        data = yaml.load(file)
+        print(data)
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
