@@ -1,7 +1,7 @@
 import os
 import yaml
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -25,6 +25,9 @@ def get_ids():
     with open('ids.yaml') as file:
         data = yaml.load(file)
         print(data)
+
+        return jsonify(data)
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
