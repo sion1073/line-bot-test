@@ -120,9 +120,8 @@ def response_message(event):
         name = re.search(r"名前登録「(.*)」", event.message.text)
 
         if name:
-            print(name.group(0))
-            update_ids(event, name.group(0))
-            messages = TextSendMessage(text='名前登録ありがとうございます。\n' + name.group(0) + 'で登録しました！')
+            update_ids(event, name.group(1))
+            messages = TextSendMessage(text='名前登録ありがとうございます。\n' + name.group(1) + 'で登録しました！')
 
     else:
         messages = TextSendMessage(text='すみません、よくわかりません')
