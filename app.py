@@ -27,7 +27,7 @@ def update_ids(event, name):
         with open('ids.yaml', "r") as file:
             ids = yaml.load(file)
 
-            is_found = True = False
+            is_found = False
             if event.source.type == "user":
                 for user in ids["ids"]["user"]:
                     if event.source.user_id == user['id']:
