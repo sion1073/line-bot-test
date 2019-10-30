@@ -31,15 +31,15 @@ def update_ids(event, name):
             if event.source.type == "user":
                 for user in ids["ids"]["user"]:
                     if event.source.user_id == user['id']:
+                        is_found = True
                         if len(name) > 0:
                             user['name'] = name
-                            is_found = True
             elif event.source.type == "group":
                 for group in ids["ids"]["group"]:
                     if event.source.user_id == group['id']:
+                        is_found = True
                         if len(name) > 0:
                             group['name'] = name
-                            is_found = True
 
             if not is_found:
                 if event.source.type == "user":
@@ -117,7 +117,7 @@ def response_message(event):
             template=CarouselTemplate(columns=notes),
         )
     elif "名前登録" in event.message.text:
-        name = re.search(r"名前登録「(.*)」")
+        name = re.search(r"名前登録「(.*)」", event.message.text)
 
         if name:
             print(name.group(0))
