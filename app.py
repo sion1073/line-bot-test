@@ -88,6 +88,7 @@ def response_message(event):
     elif event.message.text == "id":
         with open('ids.yaml') as file:
             data = yaml.load(file)
+            print(data)
             messages = TextSendMessage(text=data)
     else:
         messages = TextSendMessage(text='すみません、よくわかりません')
