@@ -1,4 +1,5 @@
 import os
+import re
 import yaml
 
 from flask import Flask, request, abort, jsonify
@@ -20,13 +21,49 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
+def update_ids(event, name):
+
+    if os.path.exists('ids.yaml'):
+        with open('ids.yaml', "r") as file:
+            ids = yaml.load(file)
+
+            is_found = False
+            if event.source.type == "user":
+                for user in ids["ids"]["user"]:
+                    if event.source.user_id == user['id']:
+                        is_found = True
+                        if len(name) > 0:
+                            user['name'] = name
+            elif event.source.type == "group":
+                for group in ids["ids"]["group"]:
+                    if event.source.group_id == group['id']:
+                        is_found = True
+                        if len(name) > 0:
+                            group['name'] = name
+
+            if not is_found:
+                if event.source.type == "user":
+                    ids["ids"]["user"].append({'name': name, 'id': event.source.user_id})
+                elif event.source.type == "group":
+                    ids["ids"]["group"].append({'name': name, 'id': event.source.group_id})
+    else:
+        ids = {'ids': {'user': [], 'group': []}}
+        if event.source.type == "user":
+            ids["ids"]["user"].append({'name': name, 'id': event.source.user_id})
+        elif event.source.type == "group":
+            ids["ids"]["group"].append({'name': name, 'id': event.source.group_id})
+
+    with open('ids.yaml', "w") as yaml_file:
+        yaml.dump(ids, yaml_file)
+
+
 @app.route("/ids", methods=['GET'])
 def get_ids():
 
     if os.path.exists('ids.yaml'):
         with open('ids.yaml') as file:
-            data = yaml.load(file)
-            return jsonify(data)
+            ids = yaml.load(file)
+            return jsonify(ids)
 
     return jsonify({})
 
@@ -49,35 +86,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
-    if os.path.exists('ids.yaml'):
-
-        with open('ids.yaml', "r") as file:
-            data = yaml.load(file)
-
-            update = False
-            if event.source.type == "user":
-                id = event.source.user_id
-                if id not in data["ids"]["user"]:
-                    data["ids"]["user"].append(id)
-                    update = True
-            elif event.source.type == "group":
-                id = event.source.group_id
-                if id not in data["ids"]["group"]:
-                    data["ids"]["group"].append(id)
-                    update = True
-    else:
-        update = True
-        data = {'ids': {'user': ['dummy'], 'group': ['dummy']}}
-        if event.source.type == "user":
-            id = event.source.user_id
-            data["ids"]["user"].append(id)
-        elif event.source.type == "group":
-            id = event.source.group_id
-            data["ids"]["group"].append(id)
-
-    if update:
-        with open('ids.yaml', "w") as yaml_file:
-            yaml.dump(data, yaml_file)
+    update_ids(event, '')
 
     if event.message.text == "でーこむ" or event.message.text == "デーコム":
         notes = [CarouselColumn(thumbnail_image_url="https://www.dcom-web.co.jp/wp-content/uploads/2014/10/logo_dcom.png",
@@ -107,6 +116,13 @@ def response_message(event):
             alt_text='template',
             template=CarouselTemplate(columns=notes),
         )
+    elif "名前登録" in event.message.text:
+        name = re.search(r"名前登録「(.*)」", event.message.text)
+
+        if name:
+            update_ids(event, name.group(1))
+            messages = TextSendMessage(text='名前登録ありがとうございます。\n' + name.group(1) + 'で登録しました！')
+
     else:
         messages = TextSendMessage(text='すみません、よくわかりません')
 
