@@ -36,7 +36,7 @@ def update_ids(event, name):
                             user['name'] = name
             elif event.source.type == "group":
                 for group in ids["ids"]["group"]:
-                    if event.source.user_id == group['id']:
+                    if event.source.group_id == group['id']:
                         is_found = True
                         if len(name) > 0:
                             group['name'] = name
